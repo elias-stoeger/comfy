@@ -2,7 +2,7 @@
 A little terminal emulator written with xlib in nim.
 Don't expect it to replace your st or urxvt anytime soon, I just started writing it and I usually don't finish my projects.
 
-##Dependancies:
+## Dependancies:
 ### To run
 In the comfy.ini I set the font to IBM Plex Mono, if you want to use that one you need it installed
 ### To build
