@@ -31,7 +31,7 @@ To have a very minimal, simlpe X terminal emulator that looks good and can do th
 ## What works or is planned
 - [ ] Text-input (Special charakters, as in anything that needs a modifier like / on german keyboards, aren't working yet)
 - [X] foreground and background colors
-- [X] execute commands (ls, cat, echo usw. are working
+- [X] execute commands (ls, cat, echo usw. are working)
 - [X] arrow up/ down to go through command history (only current session)
 - [ ] Show adjustable symbols on the left (the >> part) (may leave that to shell)
 - [ ] Show working directory on the side
