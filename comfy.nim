@@ -152,36 +152,46 @@ proc handle_event =
           commands.add(displayString)
           index = 0
           try:
-            let outp = execCmdEx(displayString[3..displayString.len - 1])[0]
-            #echo "Output: " & $outp
-            if outp.len > 0:
-              let lines = outp.split("\n")
-              #echo lines
-              for line in lines:
-                if line != "":
-                  buffer.add(line)
+            if displayString[3..displayString.len - 1] in ["clear", "clear "]:
+              var buffer_tmp: seq[string]
+              buffer = buffer_tmp
+            else:
+              let outp = execCmdEx(displayString[3..displayString.len - 1], options = {poEvalCommand})[0]
+              if outp.len > 0:
+                let lines = outp.split("\n")
+                # escape code for "clear"
+                if lines[0] == "[H[2J":
+                  var buffer_tmp: seq[string]
+                  buffer = buffer_tmp
+                else:
+                  for line in lines:
+                    if line != "":
+                      echo line
+                      buffer.add(line)
+            displayString = ">> "
+            lineWidth = 0
 
           except:
             buffer.add("Befehl nicht gefunden :(")
             
-          displayString = ">> "
-          lineWidth = 0
+        else:
+          buffer.add(">> ")
 
       # Pfeil hoch
       elif key == 65362:
-        echo "Index: ", index
-        echo "ComLen: ", commands.len
+        #echo "Index: ", index
+        #echo "ComLen: ", commands.len
         if index < commands.len:
-          echo "+1"
+          #echo "+1"
           index += 1
           displayString = commands[commands.len - index]
 
       # Pfeil runter
       elif key == 65364:
-        echo "Index: ", index
-        echo "ComLen: ", commands.len
+        #echo "Index: ", index
+        #echo "ComLen: ", commands.len
         if index > 1 and index <= commands.len:
-          echo "-1"
+          #echo "-1"
           index -= 1
           displayString = commands[commands.len - index]
         elif index == 1:
@@ -204,9 +214,9 @@ proc handle_event =
           echo key
         displayString = displayString & key.char
         lineWidth += 10
-        echo "Line Width: " & $lineWidth
+        #echo "Line Width: " & $lineWidth
         discard XGetWindowAttributes(display, win, addr window_atts)
-        echo "Atts: " & $window_atts.height
+        #echo "Atts: " & $window_atts.height
         #if (lineWidth + 10).cint >= DisplayWidth(display, screen):
         #  displayString = displayString & "\n"
         #  lineWidth = 0
